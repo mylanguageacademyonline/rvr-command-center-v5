@@ -14,7 +14,6 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        pin: { label: "PIN", type: "password" },
         frontline: { label: "Frontline", type: "text" }
       },
       async authorize(credentials) {
@@ -23,11 +22,6 @@ export const authOptions = {
         // Frontline quick access
         if (credentials?.frontline === "true") {
           return { id: "frontline-staff", role: "Frontline", isApproved: true, permissions: ["ACCESS_IN_OUT"] };
-        }
-        
-        // PIN access for Admin (example PIN 1234)
-        if (credentials?.pin === "1234") {
-          return { id: "admin-pin", role: "Agency Master", isApproved: true, permissions: ["ACCESS_MASTER_CONTROL", "ACCESS_IN_OUT", "ACCESS_KITCHEN_LEDGER", "ACCESS_BOM", "ACCESS_QUOTES", "ACCESS_VENDORS"] };
         }
         
         return null;
