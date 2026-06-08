@@ -3,11 +3,35 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import Role from "@/models/Role";
 
+import CredentialsProvider from "next-auth/providers/credentials";
+
 export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        pin: { label: "PIN", type: "password" },
+        frontline: { label: "Frontline", type: "text" }
+      },
+      async authorize(credentials) {
+        await dbConnect();
+        
+        // Frontline quick access
+        if (credentials?.frontline === "true") {
+          return { id: "frontline-staff", role: "Frontline", isApproved: true, permissions: ["ACCESS_IN_OUT"] };
+        }
+        
+        // PIN access for Admin (example PIN 1234)
+        if (credentials?.pin === "1234") {
+          return { id: "admin-pin", role: "Agency Master", isApproved: true, permissions: ["ACCESS_MASTER_CONTROL", "ACCESS_IN_OUT", "ACCESS_KITCHEN_LEDGER", "ACCESS_BOM", "ACCESS_QUOTES", "ACCESS_VENDORS"] };
+        }
+        
+        return null;
+      }
     })
   ],
   callbacks: {

@@ -1,0 +1,10 @@
+{
+  "appId": "com.rvr.commandcenter",
+  "appName": "RVR Command Center",
+  "webDir": "public",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://rvr-command-center-v5.vercel.app",
+    "cleartext": true
+  }
+}
