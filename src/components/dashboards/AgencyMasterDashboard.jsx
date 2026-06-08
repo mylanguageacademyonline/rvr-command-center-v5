@@ -1,4 +1,3 @@
-import InjectSheetButton from "../ui/InjectSheetButton";
 import ExportButton from "../ui/ExportButton";
 import dbConnect from "@/lib/dbConnect";
 import Inventory from "@/models/Inventory";
@@ -57,7 +56,6 @@ export default async function AgencyMasterDashboard({ searchParams }) {
           {tab === 'vendors' ? 'Vendor Ledger' : tab === 'users' ? 'User Registry & SaaS Controls' : 'Dashboard Overview'}
         </h2>
         <div className="flex items-center gap-4">
-          <InjectSheetButton />
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             Engines Online
