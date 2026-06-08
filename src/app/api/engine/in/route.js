@@ -3,6 +3,7 @@ import Inventory from "@/models/Inventory";
 import Transaction from "@/models/Transaction";
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/lib/requireAuth";
+import { revalidateTag } from "next/cache";
 
 export async function POST(req) {
   try {
@@ -38,6 +39,9 @@ export async function POST(req) {
       referenceId: inventoryId,
       referenceModel: "Inventory"
     });
+
+    // Instantly update the Frontline dashboard cache
+    revalidateTag("inventory-data");
 
     return NextResponse.json({ success: true, data: item });
   } catch (error) {

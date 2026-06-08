@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import dbConnect from "@/lib/dbConnect";
 import Inventory from "@/models/Inventory";
 import Transaction from "@/models/Transaction";
@@ -38,6 +39,9 @@ export async function POST(request) {
       referenceId: updatedInventory._id,
       referenceModel: "Inventory"
     });
+
+    // Instantly update the Frontline dashboard cache
+    revalidateTag("inventory-data");
 
     return NextResponse.json({
       message: "Item debited successfully",
