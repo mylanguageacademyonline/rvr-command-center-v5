@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
+import { requireAuth } from "@/lib/requireAuth";
 
 export async function GET() {
   try {
+    const auth = await requireAuth(["ACCESS_MASTER_CONTROL"]);
+    if (auth.error) return auth.error;
+
     await dbConnect();
     const users = await User.find({}).sort({ role: 1 }).lean();
     return NextResponse.json({ success: true, data: users ?? [] });
@@ -15,6 +19,9 @@ export async function GET() {
 
 export async function PATCH(req) {
   try {
+    const auth = await requireAuth(["ACCESS_MASTER_CONTROL"]);
+    if (auth.error) return auth.error;
+
     await dbConnect();
     const { userId, role, isApproved, subscriptionActive } = await req.json();
 

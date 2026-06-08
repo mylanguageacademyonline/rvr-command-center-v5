@@ -2,9 +2,13 @@ import dbConnect from "@/lib/dbConnect";
 import Inventory from "@/models/Inventory";
 import Transaction from "@/models/Transaction";
 import { NextResponse } from "next/server";
+import { requireAuth } from "@/lib/requireAuth";
 
 export async function POST(req) {
   try {
+    const auth = await requireAuth(["ACCESS_IN_OUT", "ACCESS_BOM"]);
+    if (auth.error) return auth.error;
+
     await dbConnect();
     const { inventoryId, amountToAdd } = await req.json();
 

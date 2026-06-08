@@ -2,9 +2,13 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Inventory from "@/models/Inventory";
 import Transaction from "@/models/Transaction";
+import { requireAuth } from "@/lib/requireAuth";
 
 export async function POST(request) {
   try {
+    const auth = await requireAuth(["ACCESS_IN_OUT", "ACCESS_BOM"]);
+    if (auth.error) return auth.error;
+
     const { inventoryId, amountToRemove } = await request.json();
 
     if (!inventoryId || !amountToRemove) {

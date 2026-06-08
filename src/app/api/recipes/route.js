@@ -3,9 +3,13 @@ import dbConnect from "@/lib/dbConnect";
 import RecipeMaster from "@/models/RecipeMaster";
 import MenuMaster from "@/models/MenuMaster";
 import Inventory from "@/models/Inventory";
+import { requireAuth } from "@/lib/requireAuth";
 
 export async function GET() {
   try {
+    const auth = await requireAuth();
+    if (auth.error) return auth.error;
+
     await dbConnect();
 
     // Populate menuItem and rawMaterials.inventoryItem
