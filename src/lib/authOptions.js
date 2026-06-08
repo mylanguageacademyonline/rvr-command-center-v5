@@ -32,7 +32,12 @@ export const authOptions = {
     async signIn({ user, account, profile }) {
       await dbConnect();
       
-      const email = user.email;
+      // Allow credentials provider (like Frontline) to bypass email checks
+      if (account?.provider === "credentials") {
+        return true;
+      }
+      
+      const email = user?.email;
       if (!email) return false;
 
       // Check if user exists in the database

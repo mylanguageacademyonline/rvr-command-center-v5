@@ -1,5 +1,5 @@
 async function runTests() {
-  const baseUrl = 'http://localhost:3001/api';
+  const baseUrl = 'http://localhost:3000/api';
   const endpoints = ['/inventory', '/menu', '/vendors', '/recipes', '/transactions'];
   let allPassed = true;
 
