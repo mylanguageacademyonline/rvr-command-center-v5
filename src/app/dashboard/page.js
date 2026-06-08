@@ -10,7 +10,8 @@ import HeadChefDashboard from "@/components/dashboards/HeadChefDashboard";
 import SupportDashboard from "@/components/dashboards/SupportDashboard";
 import MarketingDashboard from "@/components/dashboards/MarketingDashboard";
 
-export default async function DashboardPage({ searchParams }) {
+export default async function DashboardPage(props) {
+  const searchParams = await props.searchParams;
   const session = await getServerSession(authOptions);
 
   if (!session) {
